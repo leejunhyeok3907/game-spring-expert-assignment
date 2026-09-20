@@ -72,7 +72,7 @@ public class WorldService {
         // TODO Lv 4: duringCreation() 안에서 기본 월드 3개 제한을 검사하고 createPreparedWorld(request)를 호출합니다.
         //throw new UnsupportedOperationException("Lv 4: 월드 생성을 구현하세요.");
         return worldOperations.duringCreation(() -> {
-            if (worldRepository.countRootWorlds()>MAX_WORLDS) {
+            if (worldRepository.countRootWorlds()>=MAX_WORLDS) {
                 throw new ConflictException("WORLD_LIMIT_REACHED");
             }
             return createPreparedWorld(request);
