@@ -1,5 +1,7 @@
 package com.gameexpert.ws.handler;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import com.gameexpert.ws.NicknameHandshakeInterceptor;
 import com.gameexpert.ws.WorldBroadcaster;
@@ -24,5 +26,25 @@ public class OnlineUsersWsHandler implements WsMessageHandler {
     @Override
     public void handle(WsMessageContext context, JsonNode message) {
         // TODO Lv 15: 현재 월드의 열린 연결에서 닉네임을 조회하고 요청자에게 응답합니다.
+        List<String> nicknames=new ArrayList<>();
+
+        for (WorldSessionRegistry.Entry connection : registry.entries(context.worldId())) {
+            if(connection.session().isOpen())
+            {
+                String nickname=(String) connection.session().
+                        getAttributes().get(NicknameHandshakeInterceptor.ATTR_NICKNAME);
+
+                if(!nickname.isEmpty())
+                {
+                    nicknames.add(nickname);
+                }
+            }
+        }
+
+        nicknames.sort(Comparator.naturalOrder());
+
+        OnlineUsersResponse response = new OnlineUsersResponse(nicknames, nicknames.size());
+
+        broadcaster.sendTo(context.session(), response);
     }
 }
