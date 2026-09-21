@@ -20,13 +20,15 @@ public class MoveWsHandler implements WsMessageHandler {
     @Override
     public void handle(WsMessageContext context, JsonNode message) {
         String finalSceneActionId = WsFields.optionalFinalSceneActionId(message);
+
+        float pitchSensitivity=0.3f;
         // TODO Lv 12: 명세의 이동 값을 읽어 현재 사용자의 이동 요청을 엔진에 전달합니다.
         PlayerAction playerAction=new PlayerAction.Move(context.nickname(),
                 WsFields.finiteNumber(message, "x"),
                 WsFields.finiteNumber(message, "y"),
                 WsFields.finiteNumber(message, "z"),
                 WsFields.finiteFloat(message, "yaw"),
-                WsFields.finiteFloat(message, "pitch"),
+                WsFields.finiteFloat(message, "pitch")*-1.0f*pitchSensitivity,
                 WsFields.booleanValue(message, "crouching"),
                 WsFields.booleanValue(message, "gliding"),
                 finalSceneActionId
