@@ -28,7 +28,7 @@ public class MoveWsHandler implements WsMessageHandler {
                 WsFields.finiteNumber(message, "y"),
                 WsFields.finiteNumber(message, "z"),
                 WsFields.finiteFloat(message, "yaw"),
-                WsFields.finiteFloat(message, "pitch")*-1.0f*pitchSensitivity,
+                WsFields.finiteFloat(message, "pitch"),
                 WsFields.booleanValue(message, "crouching"),
                 WsFields.booleanValue(message, "gliding"),
                 finalSceneActionId
